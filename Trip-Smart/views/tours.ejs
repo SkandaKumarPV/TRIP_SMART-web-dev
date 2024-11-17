@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Places with Routes, Search, Weather, Dark Mode, Multi-Destination, and Favorites</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #121212;
+            color: #fff;
+        }
+        #map { height: 500px; width: 70%; display: inline-block; }
+        #info-container { height: 500px; width: 28%; float: right; padding: 10px; background-color: #f9f9f9; }
+        #info-container.dark-mode { background-color: #2c2c2c; }
+        #status { font-size: 18px; color: green; }
+        #search-container { margin-bottom: 10px; }
+        input[type="text"] { width: 100%; padding: 10px; }
+        #place-info { margin-top: 20px; }
+        .toggle-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-btn.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        .favorite-btn {
+            background-color: #ffcc00;
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .favorite-btn.added {
+            background-color: #ff6666; /* Show different color if already added */
+        }
+    </style>
+</head>
+<body>
+    <h1>Find Nearby Places and Get Routes</h1>
+    
+    <!-- Dark Mode Toggle Button -->
+    <button id="dark-mode-toggle" class="toggle-btn">🌙 Dark Mode</button>
+    
+    <!-- Search bar to filter places -->
+    <div id="search-container">
+        <input type="text" id="search-bar" placeholder="Search for a place..." oninput="filterPlaces()" />
+    </div>
+    
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Information Container -->
+    <div id="info-container">
+        <h3>Place Information</h3>
+        <div id="place-info">Click on a place to see its details.</div>
+    </div>
+
+    <p id="status"></p>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+        const infoContainer = document.getElementById('info-container');
+        let isDarkMode = false;
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', function() {
+            isDarkMode = !isDarkMode;
+            body.classList.toggle('dark-mode', isDarkMode);
+            infoContainer.classList.toggle('dark-mode', isDarkMode);
+            darkModeToggle.classList.toggle('dark-mode', isDarkMode);
+            darkModeToggle.textContent = isDarkMode ? '🌞 Light Mode' : '🌙 Dark Mode';
+        });
+
+        // Initialize map
+        const map = L.map('map').setView([51.505, -0.09], 13); // Default view
+
+        // Dark Mode Tile Layer
+        const darkTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        // Light Mode Tile Layer (default)
+        const lightTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        // Set the default tile layer
+        lightTileLayer.addTo(map);
+
+        const status = document.getElementById('status');
+        const placeInfoContainer = document.getElementById('place-info');
+
+        // Initialize an empty array for favorite places
+        let favoritePlaces = JSON.parse(localStorage.getItem('favoritePlaces')) || [];
+        let markers = []; // Store the markers for later updating
+        let routeControl = null; // Route control variable to be updated dynamically
+
+        // Function to create custom favorite icon
+        function createFavoriteIcon() {
+            return L.divIcon({
+                className: 'leaflet-div-icon',
+                html: `<button class="favorite-btn">❤️</button>`,
+                iconSize: [30, 30], // Adjusted for button size
+                iconAnchor: [15, 15], // Centering the icon
+                popupAnchor: [0, -15] // Adjust popup position
+            });
+        }
+
+        // Function to create default icon
+        function createCustomIcon(color) {
+            return L.divIcon({
+                className: 'leaflet-div-icon',
+                html: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="${color}"/>
+                       </svg>`,
+                iconSize: [20, 20], // Smaller icon size
+                iconAnchor: [10, 10], // Centering the icon
+                popupAnchor: [0, -10] // Adjust popup position
+            });
+        }
+
+        // Function to handle success: user location
+        function onLocationSuccess(position) {
+            const { latitude, longitude } = position.coords;
+
+            // Update map view to user's location
+            map.setView([latitude, longitude], 13);
+
+            // Add a marker at user's location
+            const userMarker = L.marker([latitude, longitude]).addTo(map)
+                .bindPopup('You are here!')
+                .openPopup();
+
+            // Initialize routing control
+            if (!routeControl) {
+                routeControl = L.Routing.control({
+                    waypoints: [L.latLng(latitude, longitude)], // Start with user's location
+                    createMarker: function() { return null; }, // Hide waypoints markers
+                    routeWhileDragging: true
+                }).addTo(map);
+            }
+
+            // Fetch nearby places using Overpass API (5 km radius)
+            const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];(
+                node(around:5000,${latitude},${longitude})[tourism]; 
+                node(around:5000,${latitude},${longitude})[amenity=restaurant]; 
+                node(around:5000,${latitude},${longitude})[amenity=hotel];
+                node(around:5000,${latitude},${longitude})[amenity=bar];
+                node(around:5000,${latitude},${longitude})[amenity=cafe];
+                node(around:5000,${latitude},${longitude})[shop=supermarket]; 
+                );out;`;
+
+            fetch(overpassUrl)
+                .then(response => response.json())
+                .then(data => {
+                    let places = [];
+                    // Loop through each result and add it as a marker
+                    data.elements.forEach(place => {
+                        const { lat, lon, tags } = place;
+                        const placeName = tags.name || 'Unnamed Place';
+                        const placeType = tags.tourism || tags.amenity || 'Unknown';
+                        const address = tags.address ? `${tags.address.road || ''}, ${tags.address.city || ''}` : 'No address available';
+                        const openingHours = tags.opening_hours || 'Not available';
+                        const description = tags.description || "A beautiful place to visit!"; // Default description
+
+                        // Define marker icon color based on the type
+                        let iconColor = 'green'; // Default to green for parks
+                        if (tags.amenity === 'restaurant' || tags.amenity === 'cafe' || tags.amenity === 'bar') {
+                            iconColor = 'orange';  // Food-related places are orange
+                        } else if (tags.amenity === 'hotel') {
+                            iconColor = 'blue';    // Hotels are blue
+                        }
+
+                        // Create the marker and store it in the markers array
+                        const placeMarker = L.marker([lat, lon], {
+                            icon: isFavorite(placeName) ? createFavoriteIcon() : createCustomIcon(iconColor)
+                        }).addTo(map)
+                            .bindPopup(`${placeName} (${placeType})`);
+
+                        markers.push({
+                            name: placeName,
+                            lat: lat,
+                            lon: lon,
+                            marker: placeMarker // Store the marker for later updating
+                        });
+
+                        places.push({
+                            name: placeName,
+                            type: placeType,
+                            lat: lat,
+                            lon: lon,
+                            address: address,
+                            openingHours: openingHours,
+                            description: description
+                        });
+
+                        // When clicked, set destination for the route and show place info
+                        placeMarker.on('click', function() {
+                            // Show place details in the container
+                            placeInfoContainer.innerHTML = `
+                                <h3>${placeName}</h3>
+                                <p><strong>Type:</strong> ${placeType}</p>
+                                <p><strong>Address:</strong> ${address}</p>
+                                <p><strong>Opening Hours:</strong> ${openingHours}</p>
+                                <p><strong>Description:</strong> ${description}</p>
+                                <button class="favorite-btn ${isFavorite(placeName) ? 'added' : ''}" onclick="toggleFavorite('${placeName}', ${lat}, ${lon})">
+                                    ${isFavorite(placeName) ? 'Remove from Favorites' : 'Add to Favorites'}
+                                </button>
+                            `;
+                            // Add destination to route
+                            routeControl.setWaypoints([L.latLng(latitude, longitude), L.latLng(lat, lon)]);
+                        });
+                    });
+
+                    // Store the places for filtering by search bar
+                    window.places = places;
+                })
+                .catch(err => console.error('Error fetching places:', err));
+
+            status.textContent = 'Location found!';
+        }
+
+        // Function to handle error (location failure)
+        function onLocationError(error) {
+            status.textContent = `Unable to retrieve your location: ${error.message}`;
+        }
+
+        // Use Geolocation API to get the current position
+        if ('geolocation' in navigator) {
+            status.textContent = 'Locating…';
+            navigator.geolocation.getCurrentPosition(onLocationSuccess, onLocationError);
+        } else {
+            status.textContent = 'Geolocation is not supported by your browser.';
+        }
+
+        // Function to toggle favorite places
+        function toggleFavorite(name, lat, lon) {
+            const favoritePlace = { name, lat, lon };
+            if (isFavorite(name)) {
+                // Remove from favorites
+                favoritePlaces = favoritePlaces.filter(place => place.name !== name);
+                localStorage.setItem('favoritePlaces', JSON.stringify(favoritePlaces));
+                updateMarker(name, false);
+            } else {
+                // Add to favorites
+                favoritePlaces.push(favoritePlace);
+                localStorage.setItem('favoritePlaces', JSON.stringify(favoritePlaces));
+                updateMarker(name, true);
+            }
+        }
+
+        // Function to check if a place is in the favorites
+        function isFavorite(name) {
+            return favoritePlaces.some(place => place.name === name);
+        }
+
+        // Function to update the icon of a specific marker based on its favorite status
+        function updateMarker(name, isFavoriteStatus) {
+            const markerData = markers.find(m => m.name === name);
+            if (markerData) {
+                const newIcon = isFavoriteStatus ? createFavoriteIcon() : createCustomIcon('green');
+                markerData.marker.setIcon(newIcon);
+            }
+        }
+
+        // Search Functionality: Filter places by name
+        function filterPlaces() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const filteredPlaces = window.places.filter(place => place.name.toLowerCase().includes(query));
+            
+            // Clear the map and re-add the markers
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            filteredPlaces.forEach(place => {
+                const iconColor = place.type === 'restaurant' ? 'orange' : place.type === 'hotel' ? 'blue' : 'green';
+                const placeMarker = L.marker([place.lat, place.lon], { icon: isFavorite(place.name) ? createFavoriteIcon() : createCustomIcon(iconColor) }).addTo(map)
+                    .bindPopup(`${place.name} (${place.type})`);
+            });
+        }
+
+    </script>
+</body>
+</html>

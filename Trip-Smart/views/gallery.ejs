@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Top Most Popular Places</title>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/gallery.css">
+
+	<style>
+		/* General Styles */
+		body {
+			font-family: 'Poppins', sans-serif;
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.light-mode {
+			background-color: #f9f9f9;
+			color: #333;
+		}
+
+		.dark-mode {
+			background-color: #121212;
+			color: #f1f1f1;
+		}
+
+		.header-section {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			background: transparent;
+			z-index: 1000;
+		}
+
+		.header-section.is-sticky {
+			position: fixed;
+			background: #fff;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			animation: smoothScroll 0.3s ease-in-out;
+		}
+
+		.navbar {
+			padding: 1rem 2rem;
+		}
+
+		.navbar-brand {
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.wrapper {
+			display: flex;
+			gap: 20px;
+			padding: 50px;
+			justify-content: center;
+			align-items: flex-start;
+			flex-wrap: wrap;
+		}
+
+		.box {
+			flex: 1 1 calc(33.333% - 20px);
+			background: #f9f9f9;
+			padding: 20px;
+			border: 1px solid #ddd;
+			box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			transition: transform 0.3s ease-in-out;
+			background-size: cover;
+			background-position: center;
+			color: white;
+		}
+
+		.box:hover {
+			transform: translateY(-5px);
+		}
+
+		.footer {
+			background-color: #333;
+			color: white;
+			padding: 15px 0;
+			text-align: center;
+		}
+
+		/* Dark Mode Styles */
+		.dark-mode .navbar {
+			background-color: #1f1f1f;
+			color: white;
+		}
+
+		.dark-mode .box {
+			background-color: #333;
+			color: #f1f1f1;
+		}
+
+		.dark-mode .footer {
+			background-color: #000;
+		}
+	</style>
+</head>
+<body class="light-mode">
+
+	<!-- Header Section -->
+	<header class="header-section">
+		<nav class="navbar navbar-expand-lg">
+			<div class="container">
+				<a class="navbar-brand" href="/">TripSmart</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+						<li class="nav-item"><a class="nav-link" href="/tours.html">Tours</a></li>
+						<li class="nav-item"><a class="nav-link" href="/gallery">Gallery</a></li>
+						<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+					</ul>
+				</div>
+				<!-- Dark Mode Toggle -->
+				<button id="toggleMode" class="btn btn-secondary">Switch to Dark Mode</button>
+			</div>
+		</nav>
+	</header>
+
+	<!-- Page Title -->
+	<div class="text-center mt-5 pt-5">
+		<h1>Top 10 Most Popular Places in India</h1>
+	</div>
+
+	<!-- Cards Section -->
+	<div class="wrapper">
+		<div class="box" style="background-image: url('/images/gallery/g.jpg');">
+			<h3>1. Taj Mahal</h3>
+			<p>Agra, Uttar Pradesh - The symbol of love.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal1">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g1.jpg');">
+			<h3>2. Jaipur</h3>
+			<p>Rajasthan - The Pink City.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal2">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g3.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>3. Goa</h3>
+			<p>Goa - The perfect beach destination for relaxation and parties.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal3">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g8.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>4. Kerala Backwaters</h3>
+			<p>Kerala - A serene escape through lush greenery and waterways.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal4">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g7.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>5. Ladakh</h3>
+			<p>Jammu and Kashmir - The Land of High Passes with breathtaking landscapes.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal5">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g4.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>6. Indore</h3>
+			<p>Madhya Pradesh - The cleanest city in India, known for its rich history and culture.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal6">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g2.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>7. Rishikesh</h3>
+			<p>Uttarakhand - The Yoga Capital of the World and a gateway to adventure.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal7">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/1.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>8. Hampi</h3>
+			<p>Karnataka - A UNESCO World Heritage Site known for its ancient ruins.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal8">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g6.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>9. Andaman Islands</h3>
+			<p>Andaman and Nicobar - Pristine beaches and clear waters for scuba diving.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal9">Learn More</button>
+		</div>
+		<div class="box" style="background-image: url('/images/gallery/g5.jpg'); background-size: cover; background-position: center; color: white;">
+			<h3>10. Mysore</h3>
+			<p>Karnataka - Famous for its royal heritage and the Mysore Palace.</p>
+			<button data-bs-toggle="modal" data-bs-target="#modal10">Learn More</button>
+		</div>
+	</div>
+	
+	<!-- Modals for Each Card -->
+	<div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal3Label">Goa</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="location">Location: <span>Goa</span></div>
+					<div class="facts">Facts: <span>Known for its vibrant nightlife, pristine beaches, and Portuguese heritage.</span></div>
+					<p>Goa is a coastal state in western India known for its sandy beaches, diverse seafood, and lively parties.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal4Label" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal4Label">Kerala Backwaters</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="location">Location: <span>Kerala</span></div>
+					<div class="facts">Facts: <span>Famous for houseboat cruises and lush greenery.</span></div>
+					<p>Kerala Backwaters are a network of lagoons and lakes lying parallel to the Arabian Sea coast, offering breathtaking scenery.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="modal5Label" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal5Label">Ladakh</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="location">Location: <span>Jammu and Kashmir</span></div>
+					<div class="facts">Facts: <span>Known as the "Land of High Passes".</span></div>
+					<p>Ladakh is famous for its stark mountains, clear blue skies, and vibrant Tibetan culture.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+		<!-- Add similar cards for all 10 places -->
+	</div>
+
+	<!-- Modals -->
+	<div class="modals-container">
+		<!-- Modal 1 -->
+		<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal1Label">Taj Mahal</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Agra, Uttar Pradesh<br>
+						<strong>Fact:</strong> Built by Emperor Shah Jahan in memory of his wife Mumtaz Mahal.<br>
+						<p>The Taj Mahal is a UNESCO World Heritage Site and a symbol of love, attracting millions of tourists every year.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 2 -->
+		<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal2Label">Jaipur</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Rajasthan<br>
+						<strong>Fact:</strong> Known as the Pink City for its pink-hued buildings.<br>
+						<p>Jaipur is famous for its majestic forts, palaces, and vibrant markets.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 3 -->
+		<div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal3Label">Goa</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Goa<br>
+						<strong>Fact:</strong> Known for its vibrant nightlife and Portuguese heritage.<br>
+						<p>Goa is India's favorite destination for beaches, seafood, and parties.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 4 -->
+		<div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal4Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal4Label">Kerala Backwaters</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Kerala<br>
+						<strong>Fact:</strong> Known for its serene backwaters and houseboat stays.<br>
+						<p>Kerala’s backwaters provide a tranquil escape through lush greenery and waterways.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 5 -->
+		<div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="modal5Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal5Label">Ladakh</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Jammu and Kashmir<br>
+						<strong>Fact:</strong> Home to the world’s highest motorable road, Khardung La Pass.<br>
+						<p>Ladakh’s breathtaking landscapes and monasteries make it a must-visit destination.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 6 -->
+		<div class="modal fade" id="modal6" tabindex="-1" aria-labelledby="modal6Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal6Label">Indore</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Madhya Pradesh<br>
+						<strong>Fact:</strong> Known as the cleanest city in India.<br>
+						<p>Indore boasts a rich history, vibrant food culture, and progressive city planning.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 7 -->
+		<div class="modal fade" id="modal7" tabindex="-1" aria-labelledby="modal7Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal7Label">Rishikesh</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Uttarakhand<br>
+						<strong>Fact:</strong> Known as the Yoga Capital of the World.<br>
+						<p>Rishikesh is a hub for spirituality and adventure activities like rafting and trekking.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 8 -->
+		<div class="modal fade" id="modal8" tabindex="-1" aria-labelledby="modal8Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal8Label">Hampi</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Karnataka<br>
+						<strong>Fact:</strong> A UNESCO World Heritage Site with over 500 ancient monuments.<br>
+						<p>Hampi is a treasure trove of historical ruins and cultural significance.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 9 -->
+		<div class="modal fade" id="modal9" tabindex="-1" aria-labelledby="modal9Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal9Label">Andaman Islands</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Andaman and Nicobar Islands<br>
+						<strong>Fact:</strong> Known for its pristine beaches and rich marine life.<br>
+						<p>The Andaman Islands are a paradise for water sports and underwater exploration.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Modal 10 -->
+		<div class="modal fade" id="modal10" tabindex="-1" aria-labelledby="modal10Label" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal10Label">Mysore</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<strong>Location:</strong> Karnataka<br>
+						<strong>Fact:</strong> Known as the City of Palaces.<br>
+						<p>Mysore is famous for its grand Dasara Festival and stunning Mysore Palace.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+		<!-- Add the other boxes here... -->
+	</div>
+
+	<!-- Modals -->
+	<!-- Example Modal 1 -->
+	<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal1Label">Taj Mahal</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<strong>Location:</strong> Agra, Uttar Pradesh<br>
+					<strong>Fact:</strong> Built by Emperor Shah Jahan in memory of his wife Mumtaz Mahal.<br>
+					<p>The Taj Mahal is a UNESCO World Heritage Site and a symbol of love, attracting millions of tourists every year.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<p>© 2024. ScriptSquad. All rights reserved.</p>
+	</footer>
+
+	<script>
+		// Toggle Light and Dark Mode
+		const toggleButton = document.getElementById("toggleMode");
+		const body = document.body;
+
+		toggleButton.addEventListener("click", () => {
+			body.classList.toggle("dark-mode");
+			if (body.classList.contains("dark-mode")) {
+				toggleButton.textContent = "Switch to Light Mode";
+			} else {
+				toggleButton.textContent = "Switch to Dark Mode";
+			}
+		});
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

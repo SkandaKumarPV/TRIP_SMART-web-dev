@@ -48,13 +48,13 @@ module.exports = (db) => {
         });
       }
 
-      // Generate JWT token
-      const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY || "secret", {
-        expiresIn: "1h",
-      });
+      // Set session user
+      req.session.user = {
+        id: user.id,
+        username: user.username,
+      };
 
-      console.log("Token:", token);
-      res.redirect("/dashboard"); // Replace with your dashboard route
+      res.redirect("/"); // Redirect to home page after login
     });
   });
 
@@ -98,7 +98,7 @@ module.exports = (db) => {
               errorMessage: "Internal server error",
             });
           }
-          res.redirect("/users/login");
+          res.redirect("/users/login"); // Redirect to login page after signup
         }
       );
     });

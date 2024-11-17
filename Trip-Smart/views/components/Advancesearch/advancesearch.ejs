@@ -1,24 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <!-- Include your CSS -->
-    <link rel="stylesheet" href="/css/home.css">
-    <!-- Slick Carousel CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-</head>
-<body>
-    <div>
-        <%- include('../components/Banner') %>
-        <%- include('../components/AdvanceSearch') %>
-        <%- include('../components/Features') %>
+<section class="box-search-advance">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <div class="box-search shadow-sm">
+            <div class="item-search">
+              <label class="item-search-label">Location</label>
+              <select>
+                <option value="hampi">Hampi</option>
+                <option value="ooty">Ooty</option>
+              </select>
+            </div>
+            <div class="item-search item-search-2">
+              <label class="item-search-label">Check-in</label>
+              <input type="date">
+            </div>
+            <div class="item-search item-search-2">
+              <label class="item-search-label">Check-out</label>
+              <input type="date">
+            </div>
+            <div class="item-search bd-none">
+              <label class="item-search-label">Guest</label>
+              <select>
+                <option>2 adults, 1 child</option>
+                <option>2 adults, 2 children</option>
+              </select>
+            </div>
+            <div class="item-search bd-none">
+              <button class="primaryBtn">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- Include your JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-</body>
-</html>
+  </section>
+  

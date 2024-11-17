@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/contact.css" />
+
+    <!-- FontAwesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Loading Animation -->
+      <div class="loading">
+        <div class="loading-bg"></div>
+        <i class="fa-regular fa-envelope"></i>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="form-wrapper">
+        <button class="close-btn" aria-label="Close Form">X</button>
+        <form class="contact-form" action="/contact/submit" method="POST">
+          <h1 class="form-heading">Contact Us</h1>
+
+          <!-- Input Groups -->
+          <div class="input-groups">
+            <div class="input-group">
+              <label for="name" class="field-label">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="field"
+                placeholder="Enter Your Name"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="email" class="field-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="field"
+                placeholder="Enter Your Email Address"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Message Textarea -->
+          <div class="textarea-group">
+            <label for="message" class="field-label">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              class="field"
+              placeholder="Your Message here..."
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn">
+            <span>Submit</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+
+          <!-- Contact Info -->
+          <p class="contact-info">
+            For any questions, please feel free to contact our 24/7 call center: 
+            <span>+91 1234567890</span>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- External JS -->
+    <script src="/js/contact-scr.js"></script>
+  </body>
+</html>

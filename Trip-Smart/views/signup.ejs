@@ -16,36 +16,38 @@
   <!-- Signup Form -->
   <div class="container">
     <% if (errorMessage) { %>
-      <div class="ui error message"><%= errorMessage %></div>
+      <div class="ui error message">
+        <%= errorMessage %>
+      </div>
     <% } %>
     <form action="/users/register" method="POST">
       <h1>Sign Up</h1>
       <div class="field">
         <label>Username</label>
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Username" value="<%= formValues.username || '' %>" required>
         <% if (formErrors.username) { %>
-          <p><%= formErrors.username %></p>
+          <p class="error"><%= formErrors.username %></p>
         <% } %>
       </div>
       <div class="field">
         <label>Email</label>
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="Email" value="<%= formValues.email || '' %>" required>
         <% if (formErrors.email) { %>
-          <p><%= formErrors.email %></p>
+          <p class="error"><%= formErrors.email %></p>
         <% } %>
       </div>
       <div class="field">
         <label>Password</label>
         <input type="password" name="password" placeholder="Password" required>
         <% if (formErrors.password) { %>
-          <p><%= formErrors.password %></p>
+          <p class="error"><%= formErrors.password %></p>
         <% } %>
       </div>
       <div class="field">
         <label>Confirm Password</label>
         <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
         <% if (formErrors.confirmPassword) { %>
-          <p><%= formErrors.confirmPassword %></p>
+          <p class="error"><%= formErrors.confirmPassword %></p>
         <% } %>
       </div>
       <button type="submit" class="ui button blue">Sign Up</button>
