@@ -6,6 +6,7 @@ const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 require("dotenv").config();
 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -49,6 +50,7 @@ app.use("/users", userRoutes(db));
 // Redirect root to login
 app.get("/", (req, res) => {
   res.redirect("/users/login");
+  
 });
 
 // Start server

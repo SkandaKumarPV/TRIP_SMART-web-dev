@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/footer.css">
+
+<footer class="pt-5">
+  <div class="container">
+    <div class="row">
+      <!-- Company Section -->
+      <div class="col-md-3 col-sm-12 quick_link mt-3 mt-md-0">
+        <h4 class="mt-lg-0 mt-sm-3">Company</h4>
+        <ul class="list-group list-unstyled">
+          <li class="list-group-item">
+            <a href="/">About Us</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/">News</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/">Faq</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Explore Section -->
+      <div class="col-md-3 col-sm-12 quick_link mt-3 mt-md-0">
+        <h4 class="mt-lg-0 mt-sm-3">Explore</h4>
+        <ul class="list-group list-unstyled">
+          <li class="list-group-item">
+            <a href="/">Faq</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/">Tour Listings</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/">Destination</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Quick Links Section -->
+      <div class="col-md-3 col-sm-12 quick_link mt-3 mt-md-0">
+        <h4 class="mt-lg-0 mt-sm-3">Quick Link</h4>
+        <ul class="list-group list-unstyled">
+          <li class="list-group-item">
+            <a href="/">Home</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/">About Us</a>
+          </li>
+          <li class="list-group-item">
+            <a href="/">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact Info Section -->
+      <div class="col-md-3 col-sm-12 location mt-3 mt-md-0">
+        <h4 class="mt-lg-0 mt-sm-3">Contact Info</h4>
+        <div class="d-flex align-items-center">
+          <p class="pb-2">Bangalore, Karnataka, India</p>
+        </div>
+
+        <div class="d-flex align-items-top my-2">
+          <i class="bi bi-geo-alt me-3"></i>
+          <a target="_blank" href="mailto:ramyashreeg2005@gmail.com" class="d-block">ramyashreeg2005@gmail.com</a>
+        </div>
+
+        <div class="d-flex align-items-top">
+          <i class="bi bi-telephone me-3"></i>
+          <a target="_blank" href="tel:9353852294" class="d-block">9353852294</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="row py-2 bdr mt-3">
+      <div class="col copyright">
+        <p class="text-light">© 2024. ScriptSquad All rights reserved</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to Top Button -->
+<div id="back-top" class="">
+  <i class="bi bi-arrow-up" onclick="scrollTopSmooth()"></i>
+</div>
+
+<script>
+  // Smooth Scroll to Top Function
+  function scrollTopSmooth() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  // Toggle Visibility of Back-to-Top Button
+  window.addEventListener("scroll", () => {
+    const backTop = document.getElementById("back-top");
+    if (document.documentElement.scrollTop > 300) {
+      backTop.classList.add("active");
+    } else {
+      backTop.classList.remove("active");
+    }
+  });
+</script>

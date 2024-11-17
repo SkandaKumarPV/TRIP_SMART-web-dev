@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+
+  <!-- CSS Links -->
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/banner.css">
+  <link rel="stylesheet" href="/css/advanceSearch.css">
+  <link rel="stylesheet" href="/css/features.css">
+  <link rel="stylesheet" href="/slick-carousel/slick.css">
+  <link rel="stylesheet" href="/slick-carousel/slick-theme.css">
+</head>
+<body>
+  <!-- Include Header -->
+  <%- include("components/Header/header") %>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Include Banner Component -->
+    <%- include("components/Banner/banner") %>
+
+    <!-- Include AdvanceSearch Component -->
+    <%- include("components/AdvanceSearch/advanceSearch") %>
+
+    <!-- Include Features Component -->
+    <%- include("components/Features/features") %>
+  </main>
+
+  <!-- Include Footer -->
+  <%- include("components/Footer/footer") %>
+
+  <!-- Slick Carousel JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/slick-carousel/slick.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Example initialization for Slick
+      $('.slider-class').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+      });
+    });
+  </script>
+</body>
+</html>
